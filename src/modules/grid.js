@@ -21,7 +21,9 @@ class Grid {
     }
 
     render() {
+        // Set up grid rendering styles.
         this.ctx.strokeStyle = '#aaaaaa';
+        this.ctx.fillStyle = '#000000';
         this.ctx.beginPath();
 
         // Draw rows.
@@ -35,10 +37,6 @@ class Grid {
             this.ctx.moveTo(this.cellSize * i + 0.5, 0);
             this.ctx.lineTo(this.cellSize * i + 0.5, this.ctx.canvas.height );
         }
-        this.ctx.stroke();
-
-        this.ctx.beginPath();
-        this.ctx.fillStyle = '#000000';
 
         // Render impassable cells.
         this.model.grid.forEach((row, rowCount) => {
@@ -55,6 +53,7 @@ class Grid {
         });
 
         // Draw!
+        this.ctx.stroke();
         this.ctx.fill();
     }
 
