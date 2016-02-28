@@ -3,30 +3,37 @@ require("./main.css");
 
 // Import modules.
 import Gameloop from './modules/gameloop';
+import Grid from './modules/grid';
 
-// Set canvas and canvas context references.
-const ctx = document.querySelector('.js-canvas').getContext('2d'),
-    canvas = ctx.canvas;
+// Wait for DOM ready.
+document.addEventListener("DOMContentLoaded", function(event) {
+    // Set canvas and canvas context references.
+    const ctx = document.querySelector('.js-canvas').getContext('2d');
 
-// Set the canvas size.
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+    // Set the canvas size.
+    ctx.canvas.width = window.innerWidth;
+    ctx.canvas.height = window.innerHeight;
 
-// Update function.
-let update = function update(dt) {
+    // Create new grid.
+    const grid = new Grid(ctx);
 
-};
+    // Update function.
+    let update = function update(dt) {
 
-// Render function.
-let render = function render(dt) {
-    // Clear screen.
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    };
 
+    // Render function.
+    let render = function render(dt) {
+        // Clear screen.
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
-};
+        // Render grid.
+        grid.render();
+    };
 
-// Create new game loop.
-const gl = new Gameloop(update, render);
+    // Create new game loop.
+    const gl = new Gameloop(update, render);
 
-// Start game loop.
-gl.start();
+    // Start game loop.
+    gl.start();
+});
