@@ -1,11 +1,23 @@
+import GridModel from '../models/gridModel';
+
 class Grid {
     constructor(ctx) {
+        // Set references.
         this.ctx = ctx;
         this.canvas = ctx.canvas;
 
+        // Set sizes.
         this.cellSize = 20; // Pixels.
         this.colCount = this.canvas.width / this.cellSize;
         this.rowCount = this.canvas.height / this.cellSize;
+
+        // Create grid model.
+        this.model = new GridModel(this.colCount, this.rowCount);
+
+        console.log(this.model);
+
+        // Listen for grid clicks.
+        document.querySelector(".js-canvas").addEventListener("click", this.mark);
     }
 
     render() {
@@ -26,6 +38,13 @@ class Grid {
 
         // Draw!
         this.ctx.stroke();
+    }
+
+    mark(ev) {
+        let x = ev.clientX,
+            y = ev.clientY;
+
+
     }
 }
 
