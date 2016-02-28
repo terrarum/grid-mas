@@ -5,14 +5,13 @@ class GridModel {
 
         this.grid = [];
 
-        // For each column, create a row array.
-        for (let colId = 0; colId < colCount; colId++) {
-            let row = []
-            for (let rowId = 0; rowId < rowCount; rowId++) {
-                // Push row into col.
+        // For each row, create a row array.
+        for (let rowId = 0; rowId < rowCount; rowId++) {
+            let row = [];
+            for (let colId = 0; colId < colCount; colId++) {
                 row.push(new GridCellModel(rowId, colId));
             }
-            // Push row into grid.
+            // Push row
             this.grid.push(row);
         }
     }
