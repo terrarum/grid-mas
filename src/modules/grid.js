@@ -1,4 +1,7 @@
+import * as Easystar from 'easystarjs';
 import GridModel from '../models/gridModel';
+
+let easystar = new Easystar.js();
 
 class Grid {
     constructor(ctx) {
@@ -71,6 +74,34 @@ class Grid {
         // Toggle grid cell in model.
         let clickCell = this.model.grid[clickRow][clickCol];
         clickCell.impassable = clickCell.impassable ? false : true;
+    }
+
+    getSimpleGrid() {
+        let simpleGrid = [];
+
+        this.model.grid.forEach((row, rowCount) => {
+            let rowArr = [];
+            row.forEach((cell, colCount) => {
+                if (cell.impassable) {
+                    rowArr.push(1);
+                }
+                else {
+                    rowArr.push(0);
+                }
+            });
+            simpleGrid.push(rowArr);
+        });
+
+        return simpleGrid;
+    }
+
+    findPath(col, row, targetCol, targetRow, entity) {
+        easystar.setGrid(this.getSimpleGrid());
+        easystar.setAcceptableTiles([0]);
+        easystar.findPath(col, row, targetCol, targetRow, (path) => {
+            entity.moveTo(path[1].y, path[1].x);
+        });
+        easystar.calculate();
     }
 }
 

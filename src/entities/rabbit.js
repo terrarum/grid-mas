@@ -18,6 +18,7 @@ class Rabbit extends Entity {
     moveTo(row, col) {
         // Leave current cell.
         window.grid.model.grid[this.row][this.col].isOccupied = false;
+
         // Set new position.
         this.setPosition(row, col);
     }
@@ -25,9 +26,9 @@ class Rabbit extends Entity {
     update(dt) {
         // Do something every second.
         this.acc += dt;
-        if (this.acc > 1) {
+        if (this.acc > 0.5) {
             this.acc = 0;
-            this.moveTo(this.row + 1, this.col)
+            window.grid.findPath(this.col, this.row, 20, 20, this)
         }
     }
 }
