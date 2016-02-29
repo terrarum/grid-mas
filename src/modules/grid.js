@@ -24,6 +24,24 @@ class Grid {
         document.querySelector(".js-canvas").addEventListener("click", (ev) => {
             this.mark(ev);
         });
+
+        // Set some impassable tiles.
+        this.model.grid[0][16].cost = 1;
+        this.model.grid[1][15].cost = 10;
+        this.model.grid[2][14].cost = 10;
+        this.model.grid[3][13].cost = 10;
+        this.model.grid[4][12].cost = 10;
+        this.model.grid[5][11].cost = 10;
+        this.model.grid[6][10].cost = 10;
+        this.model.grid[7][9].cost = 10;
+        this.model.grid[8][8].cost = 10;
+        this.model.grid[9][7].cost = 10;
+        this.model.grid[10][6].cost = 10;
+        this.model.grid[11][5].cost = 10;
+        this.model.grid[12][4].cost = 10;
+        this.model.grid[13][3].cost = 10;
+        this.model.grid[14][2].cost = 10;
+        this.model.grid[15][1].cost = 10;
     }
 
     render() {
@@ -47,7 +65,7 @@ class Grid {
         // Render impassable cells.
         this.model.grid.forEach((row, rowCount) => {
             row.forEach((cell, colCount) => {
-                if (cell.impassable) {
+                if (cell.cost === 10) {
                     this.ctx.fillRect(
                         colCount * this.cellSize,   // x
                         rowCount * this.cellSize,   // y
@@ -73,7 +91,7 @@ class Grid {
 
         // Toggle grid cell in model.
         let clickCell = this.model.grid[clickRow][clickCol];
-        clickCell.impassable = clickCell.impassable ? false : true;
+        clickCell.cost = clickCell.cost === 10 ? 0 : 10;
     }
 
     getSimpleGrid() {
@@ -82,22 +100,19 @@ class Grid {
         this.model.grid.forEach((row, rowCount) => {
             let rowArr = [];
             row.forEach((cell, colCount) => {
-                if (cell.impassable) {
-                    rowArr.push(1);
-                }
-                else {
-                    rowArr.push(0);
-                }
+                rowArr.push(cell.cost);
             });
             simpleGrid.push(rowArr);
         });
-
         return simpleGrid;
     }
 
     findPath(col, row, targetCol, targetRow, entity) {
         easystar.setGrid(this.getSimpleGrid());
-        easystar.setAcceptableTiles([0]);
+        easystar.setAcceptableTiles([0, 1]);
+        easystar.setTileCost(1, 1.1);
+        easystar.enableDiagonals();
+        easystar.disableCornerCutting();
         easystar.findPath(col, row, targetCol, targetRow, (path) => {
             entity.moveTo(path[1].y, path[1].x);
         });

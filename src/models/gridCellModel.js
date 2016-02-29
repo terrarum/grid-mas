@@ -2,7 +2,7 @@ class GridCellModel {
     constructor(row, col) {
         this.row = row;
         this.col = col;
-        this.impassable = false;
+        this.cost = 0;
         this.isOccupied = false;
     }
 }

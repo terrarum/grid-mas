@@ -28,7 +28,11 @@ class Rabbit extends Entity {
         this.acc += dt;
         if (this.acc > 0.5) {
             this.acc = 0;
-            window.grid.findPath(this.col, this.row, 20, 20, this)
+
+            this.destCol = 20;
+            this.destRow = 20;
+
+            window.grid.findPath(this.col, this.row, this.destCol, this.destRow, this)
         }
     }
 }
