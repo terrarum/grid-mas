@@ -67,8 +67,8 @@ class Grid {
             y = ev.clientY;
 
         // Get col and row of click.
-        let clickRow = Math.floor(y / this.cellSize),
-            clickCol = Math.floor(x / this.cellSize);
+        let clickRow = Math.floor((y - this.gridOffsetY) / this.cellSize),
+            clickCol = Math.floor((x - this.gridOffsetX) / this.cellSize);
 
         // Toggle grid cell in model.
         let clickCell = this.model.grid[clickRow][clickCol];

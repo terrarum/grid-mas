@@ -4,6 +4,7 @@ require("./main.css");
 // Import modules.
 import Gameloop from './modules/gameloop';
 import Grid from './modules/grid';
+import Rabbit from './entities/rabbit';
 
 // Wait for DOM ready.
 document.addEventListener("DOMContentLoaded", function(event) {
@@ -17,9 +18,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
     // Create new grid.
     const grid = new Grid(ctx);
 
+    let rabbit = new Rabbit(10, 10);
+
     // Update function.
     let update = function update(dt) {
-
+        rabbit.update(dt);
     };
 
     // Render function.
@@ -29,6 +32,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
         // Render grid.
         grid.render();
+
+        // Render entities.
+        rabbit.render();
     };
 
     // Create new game loop.
