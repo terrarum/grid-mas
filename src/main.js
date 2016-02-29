@@ -18,7 +18,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
     // Create new grid.
     const grid = new Grid(ctx);
 
-    let rabbit = new Rabbit(10, 10);
+    let rabbit = new Rabbit();
+    rabbit.setPosition(5, 5);
 
     // Update function.
     let update = function update(dt) {
@@ -34,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         grid.render();
 
         // Render entities.
-        rabbit.render();
+        rabbit.render(ctx, grid.cellSize);
     };
 
     // Create new game loop.

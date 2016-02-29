@@ -13,8 +13,6 @@ class Grid {
 
         this.gridWidth = this.colCount * this.cellSize;
         this.gridHeight = this.rowCount * this.cellSize;
-        this.gridOffsetX = Math.floor((window.innerWidth - this.gridWidth) / 2);
-        this.gridOffsetY = Math.floor((window.innerHeight - this.gridHeight) / 2);
 
         // Create grid model.
         this.model = new GridModel(this.rowCount, this.colCount);
@@ -33,14 +31,14 @@ class Grid {
 
         // Draw rows.
         for (let i = 0; i < this.rowCount + 1; i++) {
-            this.ctx.moveTo(0 + this.gridOffsetX, this.cellSize * i + 0.5 + this.gridOffsetY);
-            this.ctx.lineTo(this.gridWidth + this.gridOffsetX, this.cellSize * i + 0.5 + this.gridOffsetY);
+            this.ctx.moveTo(0, this.cellSize * i + 0.5);
+            this.ctx.lineTo(this.gridWidth, this.cellSize * i + 0.5);
         }
 
         // Draw columns.
         for (let i = 0; i < this.colCount + 1; i++) {
-            this.ctx.moveTo(this.cellSize * i + 0.5 + this.gridOffsetX, 0 + this.gridOffsetY);
-            this.ctx.lineTo(this.cellSize * i + 0.5 + this.gridOffsetX, this.gridHeight + this.gridOffsetY);
+            this.ctx.moveTo(this.cellSize * i + 0.5, 0);
+            this.ctx.lineTo(this.cellSize * i + 0.5, this.gridHeight);
         }
 
         // Render impassable cells.
@@ -48,8 +46,8 @@ class Grid {
             row.forEach((cell, colCount) => {
                 if (cell.impassable) {
                     this.ctx.fillRect(
-                        colCount * this.cellSize + this.gridOffsetX,   // x
-                        rowCount * this.cellSize + this.gridOffsetY,   // y
+                        colCount * this.cellSize,   // x
+                        rowCount * this.cellSize,   // y
                         this.cellSize,              // width
                         this.cellSize               // height
                     );
@@ -67,8 +65,8 @@ class Grid {
             y = ev.clientY;
 
         // Get col and row of click.
-        let clickRow = Math.floor((y - this.gridOffsetY) / this.cellSize),
-            clickCol = Math.floor((x - this.gridOffsetX) / this.cellSize);
+        let clickRow = Math.floor(y / this.cellSize),
+            clickCol = Math.floor(x / this.cellSize);
 
         // Toggle grid cell in model.
         let clickCell = this.model.grid[clickRow][clickCol];
