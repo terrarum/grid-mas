@@ -11,7 +11,10 @@ class Grid {
         this.rowCount = Math.floor(this.canvas.height / this.cellSize);
         this.colCount = Math.floor(this.canvas.width / this.cellSize);
 
-        console.log(this.rowCount, this.colCount);
+        this.gridWidth = this.colCount * this.cellSize;
+        this.gridHeight = this.rowCount * this.cellSize;
+        this.gridOffsetX = Math.floor((window.innerWidth - this.gridWidth) / 2);
+        this.gridOffsetY = Math.floor((window.innerHeight - this.gridHeight) / 2);
 
         // Create grid model.
         this.model = new GridModel(this.rowCount, this.colCount);
@@ -30,14 +33,14 @@ class Grid {
 
         // Draw rows.
         for (let i = 0; i < this.rowCount + 1; i++) {
-            this.ctx.moveTo(0, this.cellSize * i + 0.5);
-            this.ctx.lineTo(this.ctx.canvas.width, this.cellSize * i + 0.5);
+            this.ctx.moveTo(0 + this.gridOffsetX, this.cellSize * i + 0.5 + this.gridOffsetY);
+            this.ctx.lineTo(this.gridWidth + this.gridOffsetX, this.cellSize * i + 0.5 + this.gridOffsetY);
         }
 
         // Draw columns.
         for (let i = 0; i < this.colCount + 1; i++) {
-            this.ctx.moveTo(this.cellSize * i + 0.5, 0);
-            this.ctx.lineTo(this.cellSize * i + 0.5, this.ctx.canvas.height );
+            this.ctx.moveTo(this.cellSize * i + 0.5 + this.gridOffsetX, 0 + this.gridOffsetY);
+            this.ctx.lineTo(this.cellSize * i + 0.5 + this.gridOffsetX, this.gridHeight + this.gridOffsetY);
         }
 
         // Render impassable cells.
@@ -45,8 +48,8 @@ class Grid {
             row.forEach((cell, colCount) => {
                 if (cell.impassable) {
                     this.ctx.fillRect(
-                        colCount * this.cellSize,   // x
-                        rowCount * this.cellSize,   // y
+                        colCount * this.cellSize + this.gridOffsetX,   // x
+                        rowCount * this.cellSize + this.gridOffsetY,   // y
                         this.cellSize,              // width
                         this.cellSize               // height
                     );
