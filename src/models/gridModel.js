@@ -1,7 +1,7 @@
 import GridCellModel from './gridCellModel';
 
 class GridModel {
-    constructor(colCount, rowCount) {
+    constructor(rowCount, colCount) {
 
         this.grid = [];
 
