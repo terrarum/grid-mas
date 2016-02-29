@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     ctx.canvas.height = window.innerHeight;
 
     // Create new grid.
-    const grid = new Grid(ctx);
+    window.grid = new Grid(ctx);
 
     let rabbit = new Rabbit();
     rabbit.setPosition(5, 5);
@@ -32,10 +32,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
         // Render grid.
-        grid.render();
+        window.grid.render();
 
         // Render entities.
-        rabbit.render(ctx, grid.cellSize);
+        rabbit.render(ctx);
     };
 
     // Create new game loop.

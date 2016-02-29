@@ -3,6 +3,7 @@ class GridCellModel {
         this.row = row;
         this.col = col;
         this.impassable = false;
+        this.isOccupied = false;
     }
 }
 
