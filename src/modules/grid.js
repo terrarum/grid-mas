@@ -2,6 +2,10 @@ import * as Easystar from 'easystarjs';
 import GridModel from '../models/gridModel';
 
 let easystar = new Easystar.js();
+easystar.enableDiagonals();
+easystar.disableCornerCutting();
+easystar.setAcceptableTiles([0, 1]);
+easystar.setTileCost(1, 1.1);
 
 class Grid {
     constructor(ctx) {
@@ -107,14 +111,14 @@ class Grid {
         return simpleGrid;
     }
 
-    findPath(col, row, targetCol, targetRow, entity) {
+    // Finds a path from the source to the target for the given entity.
+    findPath(sourceCol, sourceRow, targetCol, targetRow, entity) {
         easystar.setGrid(this.getSimpleGrid());
-        easystar.setAcceptableTiles([0, 1]);
-        easystar.setTileCost(1, 1.1);
-        easystar.enableDiagonals();
-        easystar.disableCornerCutting();
-        easystar.findPath(col, row, targetCol, targetRow, (path) => {
-            entity.moveTo(path[1].y, path[1].x);
+        easystar.findPath(sourceCol, sourceRow, targetCol, targetRow, (path) => {
+            console.log(path.length);
+            if (path !== null && path.length > 0) {
+                entity.moveTo(path[1].y, path[1].x);
+            }
         });
         easystar.calculate();
     }
