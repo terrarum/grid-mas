@@ -115,7 +115,6 @@ class Grid {
     findPath(sourceCol, sourceRow, targetCol, targetRow, entity) {
         easystar.setGrid(this.getSimpleGrid());
         easystar.findPath(sourceCol, sourceRow, targetCol, targetRow, (path) => {
-            console.log(path.length);
             if (path !== null && path.length > 0) {
                 entity.moveTo(path[1].y, path[1].x);
             }
