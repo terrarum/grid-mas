@@ -4,8 +4,9 @@ const State = {
 };
 
 class Entity {
-    constructor() {
-        this.cellSize = window.grid.cellSize;
+    constructor(scene) {
+        this.scene = scene;
+        this.cellSize = scene.grid.cellSize;
         this.acc = 0;
         this.entityState = State.IDLE
     }
@@ -18,11 +19,11 @@ class Entity {
         this.entityState  = state;
     }
 
-    render(ctx) {
-        ctx.beginPath();
-        ctx.arc(this.col * this.cellSize + this.cellSize / 2 + 0.5, this.row * this.cellSize + this.cellSize / 2 + 0.5, 8, 0, 2 * Math.PI, false);
-        ctx.fillStyle = this.fillStyle;
-        ctx.fill();
+    render() {
+        this.scene.ctx.beginPath();
+        this.scene.ctx.arc(this.col * this.cellSize + this.cellSize / 2 + 0.5, this.row * this.cellSize + this.cellSize / 2 + 0.5, 8, 0, 2 * Math.PI, false);
+        this.scene.ctx.fillStyle = this.fillStyle;
+        this.scene.ctx.fill();
     }
 }
 

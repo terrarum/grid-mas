@@ -8,10 +8,10 @@ easystar.setAcceptableTiles([0, 1]);
 easystar.setTileCost(1, 1.1);
 
 class Grid {
-    constructor(ctx) {
+    constructor(scene) {
         // Set references.
-        this.ctx = ctx;
-        this.canvas = ctx.canvas;
+        this.ctx = scene.ctx;
+        this.canvas = scene.ctx.canvas;
 
         // Set sizes.
         this.cellSize = 20; // Pixels.

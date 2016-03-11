@@ -1,8 +1,8 @@
 import Entity from './entity';
 
 class Rabbit extends Entity {
-    constructor() {
-        super();
+    constructor(scene) {
+        super(scene);
         this.fillStyle = '#000099'
     }
 
@@ -12,12 +12,12 @@ class Rabbit extends Entity {
         this.col = col;
 
         // Mark cell as occupied.
-        window.grid.model.grid[row][col].isOccupied = true;
+        this.scene.grid.model.grid[row][col].isOccupied = true;
     }
 
     moveTo(row, col) {
         // Leave current cell.
-        window.grid.model.grid[this.row][this.col].isOccupied = false;
+        this.scene.grid.model.grid[this.row][this.col].isOccupied = false;
 
         // Set new position.
         this.setPosition(row, col);
@@ -32,7 +32,7 @@ class Rabbit extends Entity {
             this.destCol = 20;
             this.destRow = 20;
 
-            window.grid.findPath(this.col, this.row, this.destCol, this.destRow, this)
+            this.scene.grid.findPath(this.col, this.row, this.destCol, this.destRow, this)
         }
     }
 }
