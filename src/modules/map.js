@@ -1,4 +1,4 @@
-import { get } from '../utils.js';
+import * as Utils from '../utils.js';
 
 class Map {
     constructor(scene) {
@@ -19,7 +19,7 @@ class Map {
      */
     load(name) {
         const path = '/grid-mas/assets/maps/' + name + '.json';
-        get(path).then((response) => {
+        Utils.get(path).then((response) => {
             // Add map data to scene.
             this.scene.map = JSON.parse(response);
 
@@ -40,20 +40,11 @@ class Map {
         this.tileset = this.scene.map.tilesets[0];
         const tilesetImageUrl = this.tileset.image.split('/').pop();
 
-        // Load image.
-        this.tileset.img = new Image();
-        this.tileset.img.src = '/grid-mas/assets/spritesheets/' + tilesetImageUrl;
-        this.tileset.img.onload = () => {
-            document.dispatchEvent(new Event('MAP:TILESET:LOADED'));
-        };
-
         // Generate pathfinding array.
-        console.log(this.scene.map);
+        console.log("Map:", this.scene.map);
         // Loop through layers.
-        // If something is in layer Ground and not 0, it is walkable.
-        // If something is in layer Water and not 0, it is walkable and has a cost of 2.
-        // If something is in layer Roads and not 0, it is walkable and has a cost of 0.5.
-        // If something is in layer Obstacles and not 0, it is not walkable.
+
+        // If layer cell is not zero, set layer's movementCost on cell.
 
         // Easystar sets acceptable tiles (so Ground, Water, Roads)
         // Easystar can set tile cost on tile types.
@@ -64,22 +55,41 @@ class Map {
         // }
         // Assuming 10 is an arbitrary cutoff value, where any movement cost equal to or higher than 10 becomes unwalkable.
 
-
         const layers = this.scene.map.layers;
         let layer, tileId;
 
+        // Create empty two-dimensional array of map size.
+        let easyMap = Utils.create2DArr(this.scene.map.width, this.scene.map.height);
+
         // Loop through layers.
         for (let i = 0, len = layers.length; i < len; i++) {
-            // For each layer, draw each cell.
-            layer = layers[i];
-            console.log(layer.properties.movementCost)
-            for (let j = 0, len = layer.data.length; j < len; j++) {
-                tileId = layer.data[j];
-                if (tileId !== 0) {
 
+            layer = layers[i];
+            let layerCell = 0;
+            // Loop through easyMap and update tile movement costs.
+            // For each row.
+            for (let j = 0, len = easyMap.length; j < len; j++) {
+                let easyRow = easyMap[j];
+                // For each col.
+                for (let easyCol = 0, len = easyRow.length; easyCol < len; easyCol++) {
+                    // If the map cell isn't 0, update the easyMap's value for that cell.
+                    if (layer.data[layerCell] !== 0) {
+                        easyRow[easyCol] = layer.properties.movementCost;
+                    }
+
+                    layerCell++;
                 }
             }
         }
+
+        console.log("Easystar Map.", easyMap);
+
+        // Load image.
+        this.tileset.img = new Image();
+        this.tileset.img.src = '/grid-mas/assets/spritesheets/' + tilesetImageUrl;
+        this.tileset.img.onload = () => {
+            document.dispatchEvent(new Event('MAP:TILESET:LOADED'));
+        };
     }
 
     /**

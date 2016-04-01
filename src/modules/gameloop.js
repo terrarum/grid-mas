@@ -1,4 +1,4 @@
-import { timestamp } from './utils.js';
+import { timestamp } from '../utils.js';
 
 class Gameloop {
 

@@ -28,3 +28,23 @@ export function get(url) {
         req.send();
     });
 }
+
+export const timestamp = function () {
+    return window.performance && window.performance.now ? window.performance.now() : new Date().getTime();
+};
+
+export const create2DArr = function(rows, cols) {
+    let arr = [];
+
+    // For `rows` rows.
+    for (let row = 0; row < rows; row++) {
+        // Add `cols` columns.
+        let arrRow = [];
+        for (let col = 0; col < cols; col++) {
+            arrRow.push('0')
+        }
+        arr.push(arrRow);
+    }
+
+    return arr;
+};
