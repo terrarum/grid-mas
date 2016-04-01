@@ -3,15 +3,12 @@ require("./main.css");
 
 // Import modules.
 import GameLoop from './modules/gameloop';
-//import Grid from './modules/grid';
 import Map from './modules/map';
 
 import Rabbit from './entities/rabbit';
 
-
 const scene = {
     ctx: null,
-    //grid: null
     map: null
 };
 
@@ -23,16 +20,33 @@ document.addEventListener("DOMContentLoaded", function(event) {
     scene.map = new Map(scene);
 
     scene.map.load('map1');
+});
 
-    // Set the canvas size.
-    //scene.ctx.canvas.width = window.innerWidth;
-    //scene.ctx.canvas.height = window.innerHeight;
+// Map has been loaded and rendered.
+document.addEventListener("MAP:RENDERED", function(event) {
+    console.log("Map rendered successfully.", scene)
 
-    // Create new grid.
-    //scene.grid = new Grid(scene);
+    let rabbit = new Rabbit(scene);
+    rabbit.setPosition(2, 3);
 
-    //let rabbit = new Rabbit(scene);
-    //rabbit.setPosition(5, 5);
+    // Create entities.
+    scene.entities = [];
+    scene.entities.push(rabbit);
+
+    let update = function(dt) {
+        scene.entities.forEach((entity) => {
+            entity.update(dt);
+        });
+    };
+
+    let render = function() {
+        scene.entities.forEach((entity) => {
+            entity.render();
+        });
+    };
+
+    scene.gameloop = new GameLoop(update, render);
+    scene.gameloop.start();
 });
 
 // When the map has been loaded, process it.

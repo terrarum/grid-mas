@@ -1,4 +1,9 @@
 import * as Utils from '../utils.js';
+import * as Easystar from 'easystarjs';
+
+let easystar = new Easystar.js();
+easystar.enableDiagonals();
+easystar.disableCornerCutting();
 
 class Map {
     constructor(scene) {
@@ -11,6 +16,7 @@ class Map {
         document.addEventListener("MAP:TILESET:LOADED", (event) => {
             this.renderMap();
         });
+        scene.mapObj = this;
     }
 
     /**
@@ -40,31 +46,27 @@ class Map {
         this.tileset = this.scene.map.tilesets[0];
         const tilesetImageUrl = this.tileset.image.split('/').pop();
 
-        // Generate pathfinding array.
-        console.log("Map:", this.scene.map);
-        // Loop through layers.
-
-        // If layer cell is not zero, set layer's movementCost on cell.
-
-        // Easystar sets acceptable tiles (so Ground, Water, Roads)
-        // Easystar can set tile cost on tile types.
-        // So, if layers are represented by their tilecost number.
-        // if (layer.properties.movementCost < 10) {
-        //      add to acceptable tiles array
-        //      set tile cost
-        // }
-        // Assuming 10 is an arbitrary cutoff value, where any movement cost equal to or higher than 10 becomes unwalkable.
-
         const layers = this.scene.map.layers;
         let layer, tileId;
 
         // Create empty two-dimensional array of map size.
         let easyMap = Utils.create2DArr(this.scene.map.width, this.scene.map.height);
+        let acceptableTiles = [];
 
         // Loop through layers.
         for (let i = 0, len = layers.length; i < len; i++) {
 
             layer = layers[i];
+            let movementCost = layer.properties.movementCost;
+
+            // Set tile cost based on layer property.
+            easystar.setTileCost(movementCost, movementCost);
+
+            // Build array of acceptable tiles.
+            if (movementCost < 10) {
+                acceptableTiles.push(movementCost);
+            }
+
             let layerCell = 0;
             // Loop through easyMap and update tile movement costs.
             // For each row.
@@ -74,7 +76,7 @@ class Map {
                 for (let easyCol = 0, len = easyRow.length; easyCol < len; easyCol++) {
                     // If the map cell isn't 0, update the easyMap's value for that cell.
                     if (layer.data[layerCell] !== 0) {
-                        easyRow[easyCol] = layer.properties.movementCost;
+                        easyRow[easyCol] = movementCost;
                     }
 
                     layerCell++;
@@ -82,7 +84,11 @@ class Map {
             }
         }
 
-        console.log("Easystar Map.", easyMap);
+        // Set acceptable tiles.
+        easystar.setAcceptableTiles(acceptableTiles);
+
+        // Store movement map in scene.
+        this.scene.map.movementMap = easyMap;
 
         // Load image.
         this.tileset.img = new Image();
@@ -135,6 +141,17 @@ class Map {
         this.scene.ctx.drawImage(this.tileset.img, coords.x, coords.y, this.tileset.tilewidth, this.tileset.tileheight, dest.x, dest.y, this.tileset.tilewidth, this.tileset.tileheight);
     }
 
+    // Finds a path from the source to the target for the given entity.
+    findPath(sourceCol, sourceRow, targetCol, targetRow, entity) {
+        easystar.setGrid(this.scene.map.movementMap);
+        easystar.findPath(sourceCol, sourceRow, targetCol, targetRow, (path) => {
+            if (path !== null && path.length > 0) {
+                entity.moveTo(path[1].x, path[1].y);
+            }
+        });
+        easystar.calculate();
+    }
+
     /**
      * Render the map.
      */
@@ -155,6 +172,8 @@ class Map {
                 this.drawCell(j, tileId)
             }
         }
+
+        document.dispatchEvent(new Event('MAP:RENDERED'));
     }
 }
 

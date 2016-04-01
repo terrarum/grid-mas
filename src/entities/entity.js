@@ -6,7 +6,7 @@ const State = {
 class Entity {
     constructor(scene) {
         this.scene = scene;
-        this.cellSize = scene.grid.cellSize;
+        this.cellSize = scene.map.tilewidth;
         this.acc = 0;
         this.entityState = State.IDLE
     }
