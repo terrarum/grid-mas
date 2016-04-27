@@ -32,7 +32,10 @@ class Rabbit extends Entity {
             this.destCol = 20;
             this.destRow = 20;
 
-            this.scene.mapObj.findPath(this.col, this.row, this.destCol, this.destRow, this)
+            // Find path to destination. findPath also moves entity: TODO it shouldn't.
+            if (this.row !== this.destRow && this.col !== this.destCol) {
+                this.scene.mapObj.findPath(this.col, this.row, this.destCol, this.destRow, this)
+            }
         }
     };
 }
