@@ -24,7 +24,7 @@ class Map {
      * @param name
      */
     load(name) {
-        const path = '/grid-mas/assets/maps/' + name + '.json';
+        const path = '/assets/maps/' + name + '.json';
         Utils.get(path).then((response) => {
             // Add map data to scene.
             this.scene.map = JSON.parse(response);
@@ -92,7 +92,7 @@ class Map {
 
         // Load image.
         this.tileset.img = new Image();
-        this.tileset.img.src = '/grid-mas/assets/spritesheets/' + tilesetImageUrl;
+        this.tileset.img.src = '/assets/spritesheets/' + tilesetImageUrl;
         this.tileset.img.onload = () => {
             document.dispatchEvent(new Event('MAP:TILESET:LOADED'));
         };
