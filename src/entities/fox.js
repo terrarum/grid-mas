@@ -1,10 +1,10 @@
 import Entity from './entity';
 
-class Rabbit extends Entity {
+class Fox extends Entity {
     constructor(scene) {
         super(scene);
-        this.fillStyle = '#999999'
-        this.size = 4;  // TODO Make a Rabbit model.
+        this.fillStyle = '#990000';
+        this.size = 6;
     };
 
     setPosition(col, row) {
@@ -13,17 +13,14 @@ class Rabbit extends Entity {
         this.col = col;
     };
 
+    // moveTo makes more sense when it does more than call setPosition.
     moveTo(row, col) {
-        // Leave current cell.
-        // this.scene.grid.model.grid[this.row][this.col].isOccupied = false;
-
         // Set new position.
         this.setPosition(row, col);
     };
 
     update(dt) {
         // Do something every second.
-        // TODO take state into account.
         this.acc += dt;
         if (this.acc > 0.5) {
             this.acc = 0;
@@ -39,4 +36,4 @@ class Rabbit extends Entity {
     };
 }
 
-export default Rabbit;
+export default Fox;

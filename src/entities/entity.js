@@ -8,7 +8,7 @@ class Entity {
         this.scene = scene;
         this.cellSize = scene.map.tilewidth;
         this.acc = 0;
-        this.entityState = State.IDLE
+        this.entityState = State.IDLE;
     }
 
     get state() {
@@ -16,12 +16,12 @@ class Entity {
     }
 
     set state(state) {
-        this.entityState  = state;
+        this.entityState = state;
     }
 
     render() {
         this.scene.ctx.beginPath();
-        this.scene.ctx.arc(this.col * this.cellSize + this.cellSize / 2 + 0.5, this.row * this.cellSize + this.cellSize / 2 + 0.5, 8, 0, 2 * Math.PI, false);
+        this.scene.ctx.arc(this.col * this.cellSize + this.cellSize / 2 + 0.5, this.row * this.cellSize + this.cellSize / 2 + 0.5, this.size, 0, 2 * Math.PI, false);
         this.scene.ctx.fillStyle = this.fillStyle;
         this.scene.ctx.fill();
     }

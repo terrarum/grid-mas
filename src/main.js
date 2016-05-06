@@ -40,6 +40,13 @@ document.addEventListener("MAP:RENDERED", function(event) {
     };
 
     let render = function() {
+        // Clear scene.
+        scene.ctx.clearRect(0, 0, scene.ctx.canvas.clientWidth, scene.ctx.canvas.clientHeight);
+
+        // Render map.
+        scene.mapObj.renderMap();
+
+        // Render entities.
         scene.entities.forEach((entity) => {
             entity.render();
         });

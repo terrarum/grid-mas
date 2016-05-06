@@ -14,7 +14,11 @@ class Map {
         });
 
         document.addEventListener("MAP:TILESET:LOADED", (event) => {
-            this.renderMap();
+            // Set canvas size.
+            this.scene.ctx.canvas.width = this.scene.map.width * this.tileset.tilewidth;
+            this.scene.ctx.canvas.height = this.scene.map.height * this.tileset.tileheight;
+
+            document.dispatchEvent(new Event('MAP:RENDERED'));
         });
         scene.mapObj = this;
     }
@@ -127,7 +131,7 @@ class Map {
 
         const coords = this.getTileCoords(tileId);
 
-        const cols = this.scene.map.width;
+        const cols = this.scene.map.width;  // TODO rename to cols?
         const tilesize = this.scene.map.tilewidth;
 
         const row = Math.floor(cellId / cols);
@@ -156,9 +160,6 @@ class Map {
      * Render the map.
      */
     renderMap() {
-        // Set canvas size.
-        this.scene.ctx.canvas.width = this.scene.map.width * this.tileset.tilewidth;
-        this.scene.ctx.canvas.height = this.scene.map.height * this.tileset.tileheight;
 
         const layers = this.scene.map.layers;
         let layer, tileId;
@@ -172,8 +173,6 @@ class Map {
                 this.drawCell(j, tileId)
             }
         }
-
-        document.dispatchEvent(new Event('MAP:RENDERED'));
     }
 }
 
