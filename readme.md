@@ -49,3 +49,40 @@ Just run `webpack-dev-server` in the project root and it will build and serve ev
 - Entities should have models.
 - The world and its entities are being drawn into the same canvas, so in order to clear the canvas every frame, the world has to be redrawn every frame. This is inefficient considering that the world never changes; it should be in its own canvas.
 - Not quite happy with the scene object. Once this is done, I should analyse it and see what I would improve.
+
+# Thoughts
+
+Using Markov Chains to generate behaviour
+
+Rabbit is in waiting state
+Rabbit is in hungry state
+Rabbit is in eating state
+
+A Fox walks close enough to alert the Rabbit
+
+Rabbit is in scared state
+
+This interrupts the chain by changing the Rabbit’s state externally
+The Rabbit’s state when scared should not change ‘randomly’, it is being influenced by the presence of the Fox. It will run until it escapes the Fox or is eaten.
+
+States could have time limits associated with them. Walking could be a short-term state, say 2 seconds, whereas being scared and running could be a 10 second state.
+
+‘Sensing Danger’ could be a state that is switched into, making the Rabbit much more aware of its surroundings
+	Does that mean it can’t sense danger when in a different state?
+	Is Sensing Danger a passive skill that can be boosted by being in an active state?
+
+Alternately, the Rabbit could have Primary states (calm, scared) that are managed by outside influence, and Secondary states that are dictated by the Primary state.  A Rabbit can be moved out of Calm and into Scared at any time, and this wipes its behaviour pattern and replaced it with a new one.
+	This feels too complex and prescribed and like it won’t result in as much unexpected behaviour.
+
+state:
+	name
+	duration
+	behaviour
+
+Game Loop
+
+1 second ‘tick’?
+
+
+If something is in the IDLE state for 5 seconds, what is it doing?
+If something is in the WALKING state, is that a 1 second state where every second it moves one tile?
