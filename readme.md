@@ -36,6 +36,16 @@ This function will calculate a path from the entity's current position to the gi
 
 Does it make sense for entities to have a calculatePath function and a move function and keep them separate?
 
-## WebPack
+## entity.moveDir(dir)
+
+This function allows the entity to move one tile in the given direction.git
+
+# Build
 
 Just run `webpack-dev-server` in the project root and it will build and serve everything.
+
+# Notes
+
+- Entities should have models.
+- The world and its entities are being drawn into the same canvas, so in order to clear the canvas every frame, the world has to be redrawn every frame. This is inefficient considering that the world never changes; it should be in its own canvas.
+- Not quite happy with the scene object. Once this is done, I should analyse it and see what I would improve.

@@ -24,14 +24,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 // Map has been loaded and rendered.
 document.addEventListener("MAP:RENDERED", function(event) {
-    console.log("Map rendered successfully.", scene)
-
-    let rabbit = new Rabbit(scene);
-    rabbit.setPosition(2, 3);
+    console.log("Map rendered successfully.", scene);
 
     // Create entities.
-    scene.entities = [];
-    scene.entities.push(rabbit);
+    scene.entities = []; // TODO Probably needs a scene model.
+    scene.entities.push(new Rabbit(scene, {x: 20, y: 20}));
 
     let update = function(dt) {
         scene.entities.forEach((entity) => {
@@ -55,31 +52,3 @@ document.addEventListener("MAP:RENDERED", function(event) {
     scene.gameloop = new GameLoop(update, render);
     scene.gameloop.start();
 });
-
-// When the map has been loaded, process it.
-//document.addEventListener("MAP:LOADED", function(event) {
-//    console.log(scene);
-//
-//    // Update function.
-//    let update = function update(dt) {
-//        //rabbit.update(dt);
-//    };
-//
-//    // Render function.
-//    let render = function render(dt) {
-//        // Clear screen.
-//        scene.ctx.clearRect(0, 0, scene.ctx.canvas.width, scene.ctx.canvas.height);
-//
-//        // Render grid.
-//        //scene.grid.render();
-//
-//        // Render entities.
-//        //rabbit.render();
-//    };
-//
-//    // Create new game loop.
-//    const gl = new GameLoop(update, render);
-//
-//    // Start game loop.
-//    gl.start();
-//});
